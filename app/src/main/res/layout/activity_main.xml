@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".MainActivity">
+
+	<android.support.v7.widget.Toolbar
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/colorPrimary">
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Customer account creation"
+				android:textSize="18dp"
+				android:textColor="#ffffff"
+				android:layout_centerInParent="true"
+			/>
+
+		</RelativeLayout>
+
+	</android.support.v7.widget.Toolbar>
+
+
+	<FrameLayout
+		android:id="@+id/frame_layout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/toolbar"
+	android:layout_above="@+id/bottom">
+
+	</FrameLayout>
+
+	<LinearLayout
+		android:id="@+id/bottom"
+		android:layout_alignParentBottom="true"
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:weightSum="2"
+		android:orientation="horizontal"
+		android:background="#cfc8c8">
+		<TextView
+			android:layout_weight="1"
+			android:text="Create contact"
+			android:gravity="center"
+			android:textColor="#0a0a0a"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/create_contact"/>
+
+		<TextView
+			android:id="@+id/show_contact"
+			android:layout_weight="1"
+			android:text="Registered customer"
+			android:gravity="center"
+			android:textColor="#0a0a0a"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"/>
+
+	</LinearLayout>
+
+</RelativeLayout>
