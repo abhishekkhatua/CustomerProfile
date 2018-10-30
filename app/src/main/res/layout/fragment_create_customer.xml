@@ -26,6 +26,7 @@
 				app:civ_border_width="2dp"
 				app:civ_border_color="#8c1818"/>
 			<ImageView
+				android:id="@+id/click_imageview"
 				android:layout_width="40dp"
 				android:layout_height="45dp"
 				android:src="@drawable/ic_photo_camera_black_24dp"
