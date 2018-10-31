@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+																																													android:layout_width="match_parent"
+																																													android:layout_height="match_parent"
+																																													xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+	<TextView
+		android:id="@+id/text"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintLeft_toRightOf="parent"
+		android:textColor="#373434"
+		android:background="?android:attr/selectableItemBackground"
+		android:clickable="true"
+		android:padding="10dp"
+		android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+		app:layout_constraintRight_toRightOf="parent"
+	/>
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background="#949191"
+		app:layout_constraintTop_toBottomOf="@+id/text"
+		android:layout_marginBottom="3dp"/>
+
+</android.support.constraint.ConstraintLayout>
