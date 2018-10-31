@@ -40,6 +40,7 @@
 
 	</FrameLayout>
 
+
 	<LinearLayout
 		android:id="@+id/bottom"
 		android:layout_alignParentBottom="true"
@@ -47,24 +48,54 @@
 		android:layout_height="50dp"
 		android:weightSum="2"
 		android:orientation="horizontal"
-		android:background="#cfc8c8">
-		<TextView
+		android:background="#edeaea">
+		<RelativeLayout
 			android:layout_weight="1"
-			android:text="Create contact"
-			android:gravity="center"
-			android:textColor="#0a0a0a"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:id="@+id/create_contact"/>
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView
 
-		<TextView
-			android:id="@+id/show_contact"
+				android:text="Create contact"
+				android:gravity="center"
+				android:textColor="#0a0a0a"
+				android:layout_centerInParent="true"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/create_contact"/>
+			<ImageView
+				android:id="@+id/create_contact_image"
+				android:layout_centerVertical="true"
+				android:layout_marginLeft="20dp"
+				android:src="@drawable/ic_account_box_black_24dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+		</RelativeLayout>
+
+
+		<RelativeLayout
 			android:layout_weight="1"
-			android:text="Registered customer"
-			android:gravity="center"
-			android:textColor="#0a0a0a"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"/>
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView
+				android:id="@+id/show_contact"
+				android:layout_weight="1"
+				android:text="Reg. customer"
+				android:gravity="center"
+				android:textColor="#0a0a0a"
+				android:layout_marginLeft="45dp"
+				android:layout_centerInParent="true"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"/>
+			<ImageView
+				android:id="@+id/profile"
+				android:layout_centerVertical="true"
+				android:layout_marginLeft="20dp"
+				android:src="@drawable/ic_group_black_24dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+		</RelativeLayout>
 
 	</LinearLayout>
 

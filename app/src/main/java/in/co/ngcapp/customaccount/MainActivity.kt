@@ -2,9 +2,10 @@ package `in`.co.ngcapp.customaccount
 
 import `in`.co.ngcapp.customaccount.fragments.CreateCustomer
 import `in`.co.ngcapp.customaccount.fragments.ShoeCustomer
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -12,17 +13,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     var create_contact: TextView? = null
     var show_contact: TextView? = null
+    var create_contact_image: ImageView? = null
+    var profile: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         create_contact = findViewById(R.id.create_contact)
         show_contact = findViewById(R.id.show_contact)
+        create_contact_image = findViewById(R.id.create_contact_image)
+        profile = findViewById(R.id.profile)
         create_contact!!.setOnClickListener(this)
         show_contact!!.setOnClickListener(this)
         callCreateContact()
-        create_contact!!.setTextColor(resources.getColor(R.color.colorAccent))
-        show_contact!!.setTextColor(resources.getColor(R.color.black))
+//        create_contact!!.setTextColor(resources.getColor(R.color.colorAccent))
+//        show_contact!!.setTextColor(resources.getColor(R.color.black))
+
+
     }
 
     override fun onClick(p0: View?) {
@@ -30,15 +37,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         when (p0!!.id) {
             R.id.create_contact -> {
                 callCreateContact()
-                create_contact!!.setTextColor(resources.getColor(R.color.colorAccent))
-                show_contact!!.setTextColor(resources.getColor(R.color.black))
+
 
             }
 
             R.id.show_contact -> {
                 callProfile()
-                show_contact!!.setTextColor(resources.getColor(R.color.colorAccent))
-                create_contact!!.setTextColor(resources.getColor(R.color.black))
+
             }
         }
     }
@@ -48,7 +53,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.frame_layout, CreateCustomer())
         ft.commit()
-
+        create_contact!!.setTextColor(resources.getColor(R.color.colorAccent))
+        show_contact!!.setTextColor(resources.getColor(R.color.black))
+        create_contact_image!!.setColorFilter(this.getResources().getColor(R.color.colorAccent))
+        profile!!.setColorFilter(this.getResources().getColor(R.color.black))
 
     }
 
@@ -57,7 +65,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.frame_layout, ShoeCustomer())
         ft.commit()
-
+        show_contact!!.setTextColor(resources.getColor(R.color.colorAccent))
+        create_contact!!.setTextColor(resources.getColor(R.color.black))
+        create_contact_image!!.setColorFilter(this.getResources().getColor(R.color.black))
+        profile!!.setColorFilter(this.getResources().getColor(R.color.colorAccent))
 
     }
 }
