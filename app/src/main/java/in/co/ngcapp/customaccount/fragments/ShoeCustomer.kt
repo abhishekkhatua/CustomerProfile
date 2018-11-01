@@ -145,25 +145,25 @@ class ShoeCustomer : Fragment(), View.OnClickListener {
 
     class SalaryComparator: Comparator<UserData>{
         override fun compare(o1: UserData?, o2: UserData?): Int {
-            return o2!!.inComeSlab.compareTo(o1!!.inComeSlab)
+            return o1!!.inComeSlab.compareTo(o2!!.inComeSlab)
         }
     }
 
     class NameComparator: Comparator<UserData>{
         override fun compare(o1: UserData?, o2: UserData?): Int {
-            return o2!!.mName.compareTo(o1!!.mName)
+            return o1!!.mName.compareTo(o2!!.mName)
         }
     }
 
     class AddressComparator: Comparator<UserData>{
         override fun compare(o1: UserData?, o2: UserData?): Int {
-            return o2!!.mAddress.compareTo(o1!!.mAddress)
+            return o1!!.mAddress.compareTo(o2!!.mAddress)
         }
     }
 
     class KeyComparator: Comparator<UserData>{
         override fun compare(o1: UserData?, o2: UserData?): Int {
-            return o2!!.keyIds.compareTo(o1!!.keyIds)
+            return o1!!.keyIds.compareTo(o2!!.keyIds)
         }
     }
 }
