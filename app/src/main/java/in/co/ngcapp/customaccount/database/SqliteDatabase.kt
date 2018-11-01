@@ -40,12 +40,12 @@ class SqliteDatabase(mContext: Context) : SQLiteOpenHelper(mContext, "TimeTableS
     }
 
     fun addFav(
-            customerName: String, customerImages: String,
-            customerDateOfBirth: String,
-            customerPhoneNumber: String,
-            customerAddress: String,
-            customerIncome: String,
-            customerFile: String
+        customerName: String, customerImages: String,
+        customerDateOfBirth: String,
+        customerPhoneNumber: String,
+        customerAddress: String,
+        customerIncome: String,
+        customerFile: String
     ) {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -69,7 +69,15 @@ class SqliteDatabase(mContext: Context) : SQLiteOpenHelper(mContext, "TimeTableS
         val cursor = db.rawQuery(selectQuery, null)
         if (cursor.moveToFirst()) {
             do {
-                val recentData = UserData(cursor.getString(0), cursor.getString(1), cursor.getString(6), cursor.getString(5), cursor.getString(7), cursor.getString(3))
+                val recentData = UserData(
+                    cursor.getString(0),
+                    cursor.getString(1),
+                    cursor.getString(6),
+                    cursor.getString(5),
+                    cursor.getString(7),
+                    cursor.getString(3),
+                    cursor.getString(2)
+                )
 
 
                 getAllData.add(recentData)

@@ -6,4 +6,5 @@ data class UserData(
     var mPhoneNumber:String,
     var mDateofBirth:String,
     var mAddress:String,
-    var inComeSlab:String )
+    var inComeSlab:String ,
+    var imagesCustomer:String)

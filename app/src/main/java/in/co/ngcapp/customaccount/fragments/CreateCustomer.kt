@@ -26,10 +26,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.*
@@ -69,12 +66,15 @@ class CreateCustomer : Fragment(), View.OnClickListener {
     var getDateOfBirth: String? = null
     var getAddress: String? = null
     var getInCome: String? = null
-    var file:TextView?= null
-    var file_image:ImageView?= null
+    var file: TextView? = null
+    var file_image: ImageView? = null
+
+    var pathName: String? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_create_customer, container, false)
         click_imageview = view.findViewById(R.id.click_imageview)
@@ -90,7 +90,7 @@ class CreateCustomer : Fragment(), View.OnClickListener {
         input_layout_address = view.findViewById(R.id.input_layout_address)
         error_income = view.findViewById(R.id.error_income)
         submit = view.findViewById(R.id.submit)
-        file   = view.findViewById(R.id.file)
+        file = view.findViewById(R.id.file)
         file_image = view.findViewById(R.id.file_image)
         submit!!.setOnClickListener(this)
         input_income!!.setOnClickListener(this)
@@ -127,13 +127,13 @@ class CreateCustomer : Fragment(), View.OnClickListener {
 
                 } else {
                     savedata(
-                            getname.toString(),
-                            "",
-                            getDateOfBirth.toString(),
-                            "",
-                            getPhoneNumber.toString(),
-                            getInCome.toString(),
-                            ""
+                        getname.toString(),
+                        base64EncodedString,
+                        getDateOfBirth.toString(),
+                        getPhoneNumber.toString(),
+                        getAddress.toString(),
+                        getInCome.toString(),
+                        ""
                     )
                 }
             }
@@ -143,9 +143,8 @@ class CreateCustomer : Fragment(), View.OnClickListener {
             R.id.input_address -> {
 
             }
-            R.id.file ->{
+            R.id.file -> {
                 //
-
 
 
             }
@@ -214,6 +213,11 @@ class CreateCustomer : Fragment(), View.OnClickListener {
             error_income!!.visibility = View.VISIBLE
             isValidate = false
         }
+        if (base64EncodedString.isNullOrEmpty()) {
+            Toast.makeText(this.context, "Please select Profile Pic", Toast.LENGTH_SHORT).show()
+            isValidate = false
+
+        }
 
 
 
@@ -222,21 +226,22 @@ class CreateCustomer : Fragment(), View.OnClickListener {
     }
 
     fun savedata(
-            mCustomerName: String, mCustomerImages: String, mcustomerDateOfBirth: String, mcustomerPhoneNumber: String,
-            mCustomerAddress: String, mCustomerIncome: String, mCustomerFile: String
+        mCustomerName: String, mCustomerImages: String, mcustomerDateOfBirth: String, mcustomerPhoneNumber: String,
+        mCustomerAddress: String, mCustomerIncome: String, mCustomerFile: String
     ) {
         var sqliteDatabase = SqliteDatabase(this.context!!)
         sqliteDatabase.addFav(
-                mCustomerName,
-                mCustomerImages,
-                mcustomerDateOfBirth,
-                mcustomerPhoneNumber,
-                mCustomerAddress,
-                mCustomerIncome,
-                mCustomerFile
+            mCustomerName,
+            mCustomerImages,
+            mcustomerDateOfBirth,
+            mcustomerPhoneNumber,
+            mCustomerAddress,
+            mCustomerIncome,
+            mCustomerFile
         )
         Log.i("Submitted", "Submitted")
-
+        refreshData()
+        Toast.makeText(this.context, "Successfully user profile is created", Toast.LENGTH_SHORT).show()
 
     }
 
@@ -305,14 +310,15 @@ class CreateCustomer : Fragment(), View.OnClickListener {
             bm.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val byteArrayImage = baos.toByteArray()
             base64EncodedString = Base64.encodeToString(byteArrayImage, Base64.DEFAULT)
+            Log.i("onSelectGalleryResult", base64EncodedString)
             profile_image!!.setImageBitmap(bitmap)
         } catch (e: IOException) {
             e.printStackTrace()
         }
 
         Glide.with(this)
-                .load(GALLERY)
-                .into(profile_image)
+            .load(GALLERY)
+            .into(profile_image)
 //        sendImages(base64EncodedString)
 
     }
@@ -346,9 +352,12 @@ class CreateCustomer : Fragment(), View.OnClickListener {
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
         val byteArray = bytes.toByteArray()
         base64EncodedString = Base64.encodeToString(byteArray, Base64.DEFAULT)
+        Log.i("onCaptureImageResult", base64EncodedString)
 
-        val destination = File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis().toString() + ".jpg")
+        val destination = File(
+            Environment.getExternalStorageDirectory(),
+            System.currentTimeMillis().toString() + ".jpg"
+        )
         val fo: FileOutputStream
         try {
             destination.createNewFile()
@@ -362,8 +371,8 @@ class CreateCustomer : Fragment(), View.OnClickListener {
         }
 
         Glide.with(this)
-                .load(destination)
-                .into(profile_image)
+            .load(destination)
+            .into(profile_image)
 //
 //        sendImages(base64EncodedString)
     }
@@ -434,5 +443,14 @@ class CreateCustomer : Fragment(), View.OnClickListener {
             }
 
         })
+    }
+
+    fun refreshData() {
+        input_username!!.setText("")
+        input_phone_number!!.setText("")
+        date_of_birth!!.setText("")
+        input_address!!.setText("")
+        input_income!!.setText("")
+        profile_image!!.setImageDrawable(null)
     }
 }

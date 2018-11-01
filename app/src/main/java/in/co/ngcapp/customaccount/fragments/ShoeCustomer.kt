@@ -26,7 +26,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class ShoeCustomer : Fragment() {
     var arragList = ArrayList<UserData>()
-    var recycler_view_details:RecyclerView?= null
+    var recycler_view_details: RecyclerView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -50,9 +50,12 @@ class ShoeCustomer : Fragment() {
             var getDOB = data[i].mDateofBirth
             var getAddress = data[i].mAddress
             var getIcomeSlab = data[i].inComeSlab
-            Log.i("Details", "$getIds   $getName $getPhoneNumber $getDOB $getAddress $getIcomeSlab")
+            var getCustomerImages  = data[i].imagesCustomer
+            Log.i(
+                "Details",
+                "ids $getIds   name = $getName phoneNumber =$getPhoneNumber  dateof birth$getDOB  address $getAddress  income$getIcomeSlab Images $getCustomerImages")
 
-            var userData = UserData(getIds,getName,getPhoneNumber,getDOB,getAddress,getIcomeSlab)
+            var userData = UserData(getIds, getName, getPhoneNumber, getDOB, getAddress, getIcomeSlab,getCustomerImages)
             arragList.add(userData)
         }
         var customerList = CustomerList(context!!.applicationContext, arragList)
