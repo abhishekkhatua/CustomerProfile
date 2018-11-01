@@ -18,6 +18,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
+import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
@@ -28,6 +29,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.bumptech.glide.Glide
+import com.yashoid.instacropper.InstaCropperActivity
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.*
 
@@ -105,7 +107,44 @@ class CreateCustomer : Fragment(), View.OnClickListener {
         file!!.setOnClickListener(this)
         textChangable()
         click_imageview!!.setOnClickListener(this)
+
+        file_image!!.setOnClickListener{onfileImageClicked()}
         return view
+    }
+
+    private fun onfileImageClicked(){
+        val items = arrayOf<CharSequence>("Take Photo", "Choose from Library", "Cancel")
+
+        val builder = AlertDialog.Builder(this.context!!)
+        builder.setTitle("Add Photo!")
+        builder.setItems(items) { dialog, which ->
+            when {
+                items[which] == "Take Photo" -> openCameraForFile()
+                items[which] == "Choose from Library" -> openGalleryForFile()
+                items[which] == "Cancel" -> dialog.cancel()
+            }
+        }
+        builder.show()
+    }
+
+    private val CAMERA_INTENT_FILE = 15
+    private val GALLERY_INTENT_FILE = 16
+    private var currentCameraImageUri:Uri? = null
+    private fun openCameraForFile(){
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        currentCameraImageUri = FileProvider.getUriForFile(
+                             context!!,
+                             context!!.getApplicationContext()
+                             .getPackageName() + ".provider",
+                            File(activity!!.filesDir, "${System.currentTimeMillis()}.jpg"))
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, currentCameraImageUri)
+        startActivityForResult(intent, CAMERA_INTENT_FILE)
+    }
+
+    private fun openGalleryForFile(){
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        intent.type = "image/*"
+        startActivityForResult(intent, GALLERY_INTENT_FILE)
     }
 
     override fun onClick(p0: View?) {
@@ -299,17 +338,48 @@ class CreateCustomer : Fragment(), View.OnClickListener {
     /*
     Retreving the Camera and Gallery Image
      */
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 456)
 
-                onSelectFromGalleryResult(data)
+                onSelectFromGalleryResult(data!!)
             else if (requestCode == 123)
-                onCaptureImageResult(data)
+                onCaptureImageResult(data!!)
+
+            else if (requestCode == CAMERA_INTENT_FILE)
+                onCameraImageForFile()
+            else if (requestCode == GALLERY_INTENT_FILE)
+                onGalleryImageForFile(data!!)
+            else if (requestCode == REQUEST_CROP)
+                onCropDone(data!!)
         }
     }
 
+    private val REQUEST_CROP = 35
+    private fun onCameraImageForFile(){
+        currentCameraImageUri?.also {
+            val dstUri = Uri.fromFile(File(context!!.filesDir, "${System.currentTimeMillis()}.jpg"))
+            val intent:Intent = InstaCropperActivity.getIntent(context, it, dstUri, 1024, 1);
+            startActivityForResult(intent, REQUEST_CROP)
+        }
+    }
+
+    private fun onGalleryImageForFile(data: Intent){
+        val uri = data.data
+        val dstUri = Uri.fromFile(File(context!!.filesDir, "${System.currentTimeMillis()}.jpg"))
+        val intent:Intent = InstaCropperActivity.getIntent(context, uri, dstUri, 1024, 1);
+        startActivityForResult(intent, REQUEST_CROP)
+    }
+
+    private fun onCropDone(data: Intent){
+        val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, data.data)
+        file_image!!.setImageURI(data.data)
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        val byteArray = stream.toByteArray()
+        bitmap.recycle()
+        base64EncodedString = Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
     private fun onSelectFromGalleryResult(data: Intent) {
         val uri = data.data
         try {

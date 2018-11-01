@@ -19,6 +19,8 @@ import android.view.ViewGroup
 import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
 import android.widget.*
+import java.util.*
+import kotlin.Comparator
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -100,24 +102,22 @@ class ShoeCustomer : Fragment(), View.OnClickListener {
         sort_name.setOnClickListener {
             Toast.makeText(this.context, "Sort by name", Toast.LENGTH_SHORT).show()
             popupWindow.dismiss()
-
+            sort("name")
         }
         sort_by_salary.setOnClickListener {
             Toast.makeText(this.context, "Sort by Salary", Toast.LENGTH_SHORT).show()
             popupWindow.dismiss();
-
-
+            sort("salary")
         }
         sort_address.setOnClickListener {
             Toast.makeText(this.context, "Sort by address", Toast.LENGTH_SHORT).show()
             popupWindow.dismiss();
-
+            sort("address")
         }
         sort_key.setOnClickListener {
             Toast.makeText(this.context, "Sort by key", Toast.LENGTH_SHORT).show()
             popupWindow.dismiss();
-
-
+            sort("key")
         }
         popupWindow.isFocusable = true
         popupWindow.width = Utils.dpToPx(280.0f, context)
@@ -130,5 +130,40 @@ class ShoeCustomer : Fragment(), View.OnClickListener {
         popupWindow.isClippingEnabled = true
 
         return popupWindow
+    }
+
+
+    private fun sort(sort: String){
+        when (sort) {
+            "name" -> Collections.sort(arragList, NameComparator())
+            "salary" -> Collections.sort(arragList, SalaryComparator())
+            "address" -> Collections.sort(arragList, AddressComparator())
+            "key" -> Collections.sort(arragList, KeyComparator())
+        }
+        recycler_view_details!!.adapter.notifyDataSetChanged()
+    }
+
+    class SalaryComparator: Comparator<UserData>{
+        override fun compare(o1: UserData?, o2: UserData?): Int {
+            return o2!!.inComeSlab.compareTo(o1!!.inComeSlab)
+        }
+    }
+
+    class NameComparator: Comparator<UserData>{
+        override fun compare(o1: UserData?, o2: UserData?): Int {
+            return o2!!.mName.compareTo(o1!!.mName)
+        }
+    }
+
+    class AddressComparator: Comparator<UserData>{
+        override fun compare(o1: UserData?, o2: UserData?): Int {
+            return o2!!.mAddress.compareTo(o1!!.mAddress)
+        }
+    }
+
+    class KeyComparator: Comparator<UserData>{
+        override fun compare(o1: UserData?, o2: UserData?): Int {
+            return o2!!.keyIds.compareTo(o1!!.keyIds)
+        }
     }
 }
