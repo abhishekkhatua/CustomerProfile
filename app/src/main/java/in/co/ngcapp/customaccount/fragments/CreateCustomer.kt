@@ -200,6 +200,12 @@ class CreateCustomer : Fragment(), View.OnClickListener {
 
             isValidate = false
         }
+        if (getPhoneNumber!!.length < 10) {
+            Log.i("PhoneNUmber", "PhoneNumber")
+            input_layout_mobile!!.error = "Please Enter 10 digit Phone Number"
+            isValidate = false
+
+        }
         if (getDateOfBirth.isNullOrEmpty()) {
             error_date_of_birth!!.visibility = View.VISIBLE
             isValidate = false

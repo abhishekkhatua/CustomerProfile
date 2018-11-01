@@ -70,6 +70,8 @@
                     android:id="@+id/input_phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLength="10"
+
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:fontFamily="@font/century_gothic"
                     android:drawableRight="@drawable/ic_local_phone_black_24dp"
