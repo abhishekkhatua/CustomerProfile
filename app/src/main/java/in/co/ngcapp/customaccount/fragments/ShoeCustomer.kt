@@ -4,7 +4,10 @@ package `in`.co.ngcapp.customaccount.fragments
 import `in`.co.ngcapp.customaccount.R
 import `in`.co.ngcapp.customaccount.adapter.CustomerList
 import `in`.co.ngcapp.customaccount.database.SqliteDatabase
+import `in`.co.ngcapp.customaccount.util.Utils
 import `in`.co.ngcapp.model.UserData
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -13,6 +16,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.support.v7.app.AppCompatActivity
+import android.view.WindowManager
+import android.widget.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -24,14 +30,22 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class ShoeCustomer : Fragment() {
+class ShoeCustomer : Fragment(), View.OnClickListener {
+
+
     var arragList = ArrayList<UserData>()
     var recycler_view_details: RecyclerView? = null
+    var header: TextView? = null
+    var more: ImageView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_shoe_customer, container, false)
         recycler_view_details = view.findViewById<RecyclerView>(R.id.recycler_view_details)
+        header = view.findViewById(R.id.header)
+        more = view.findViewById(R.id.more)
+        header!!.setText("Manage Users ")
+        more!!.setOnClickListener(this)
         getSavedData()
         return view
     }
@@ -50,12 +64,14 @@ class ShoeCustomer : Fragment() {
             var getDOB = data[i].mDateofBirth
             var getAddress = data[i].mAddress
             var getIcomeSlab = data[i].inComeSlab
-            var getCustomerImages  = data[i].imagesCustomer
+            var getCustomerImages = data[i].imagesCustomer
             Log.i(
                 "Details",
-                "ids $getIds   name = $getName phoneNumber =$getPhoneNumber  dateof birth$getDOB  address $getAddress  income$getIcomeSlab Images $getCustomerImages")
+                "ids $getIds   name = $getName phoneNumber =$getPhoneNumber  dateof birth$getDOB  address $getAddress  income$getIcomeSlab Images $getCustomerImages"
+            )
 
-            var userData = UserData(getIds, getName, getPhoneNumber, getDOB, getAddress, getIcomeSlab,getCustomerImages)
+            var userData =
+                UserData(getIds, getName, getPhoneNumber, getDOB, getAddress, getIcomeSlab, getCustomerImages)
             arragList.add(userData)
         }
         var customerList = CustomerList(context!!.applicationContext, arragList)
@@ -64,5 +80,55 @@ class ShoeCustomer : Fragment() {
         recycler_view_details?.adapter = customerList
     }
 
+    override fun onClick(v: View?) {
+        getFilterPopup().showAsDropDown(v)
 
+    }
+
+    fun getFilterPopup(): PopupWindow {
+
+        val popupWindow = PopupWindow(context)
+        // inflate your layout or dynamically add view
+        val inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        val view = inflater.inflate(R.layout.poppup_filter, null)
+
+        var sort_name = view.findViewById<TextView>(R.id.sort_name)
+        var sort_by_salary = view.findViewById<TextView>(R.id.sort_by_salary)
+        var sort_address = view.findViewById<TextView>(R.id.sort_address)
+        var sort_key = view.findViewById<TextView>(R.id.sort_key)
+        sort_name.setOnClickListener {
+            Toast.makeText(this.context, "Sort by name", Toast.LENGTH_SHORT).show()
+            popupWindow.dismiss()
+
+        }
+        sort_by_salary.setOnClickListener {
+            Toast.makeText(this.context, "Sort by Salary", Toast.LENGTH_SHORT).show()
+            popupWindow.dismiss();
+
+
+        }
+        sort_address.setOnClickListener {
+            Toast.makeText(this.context, "Sort by address", Toast.LENGTH_SHORT).show()
+            popupWindow.dismiss();
+
+        }
+        sort_key.setOnClickListener {
+            Toast.makeText(this.context, "Sort by key", Toast.LENGTH_SHORT).show()
+            popupWindow.dismiss();
+
+
+        }
+        popupWindow.isFocusable = true
+        popupWindow.width = Utils.dpToPx(280.0f, context)
+        popupWindow.height = WindowManager.LayoutParams.WRAP_CONTENT
+        popupWindow.contentView = view
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            popupWindow.elevation = 0f
+            popupWindow.setBackgroundDrawable(resources.getDrawable(R.drawable.abc_popup_background_mtrl_mult, null))
+        }
+        popupWindow.isClippingEnabled = true
+
+        return popupWindow
+    }
 }

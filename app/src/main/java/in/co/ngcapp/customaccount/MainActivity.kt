@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     var show_contact: TextView? = null
     var create_contact_image: ImageView? = null
     var profile: ImageView? = null
-    var header: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +23,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         show_contact = findViewById(R.id.show_contact)
         create_contact_image = findViewById(R.id.create_contact_image)
         profile = findViewById(R.id.profile)
-        header = findViewById(R.id.header)
         create_contact!!.setOnClickListener(this)
         show_contact!!.setOnClickListener(this)
         callCreateContact()
@@ -57,7 +55,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         ft.commit()
         create_contact!!.setTextColor(resources.getColor(R.color.colorPrimaryDark))
         show_contact!!.setTextColor(resources.getColor(R.color.black))
-        header!!.setText("Create Account ")
         create_contact_image!!.setColorFilter(this.getResources().getColor(R.color.colorPrimaryDark))
         profile!!.setColorFilter(this.getResources().getColor(R.color.black))
 
@@ -70,7 +67,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         ft.commit()
         show_contact!!.setTextColor(resources.getColor(R.color.colorPrimaryDark))
         create_contact!!.setTextColor(resources.getColor(R.color.black))
-        header!!.setText("Manage Users ")
 
         create_contact_image!!.setColorFilter(this.getResources().getColor(R.color.black))
         profile!!.setColorFilter(this.getResources().getColor(R.color.colorPrimaryDark))

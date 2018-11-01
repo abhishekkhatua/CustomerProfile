@@ -70,6 +70,8 @@ class CreateCustomer : Fragment(), View.OnClickListener {
     var file_image: ImageView? = null
 
     var pathName: String? = null
+    var header:TextView?= null
+    var more:ImageView?= null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,6 +94,9 @@ class CreateCustomer : Fragment(), View.OnClickListener {
         submit = view.findViewById(R.id.submit)
         file = view.findViewById(R.id.file)
         file_image = view.findViewById(R.id.file_image)
+        header = view.findViewById(R.id.header)
+        header!!.setText("Create Account ")
+
         submit!!.setOnClickListener(this)
         input_income!!.setOnClickListener(this)
         date_of_birth!!.setOnClickListener(this)
@@ -222,7 +227,6 @@ class CreateCustomer : Fragment(), View.OnClickListener {
         if (base64EncodedString.isNullOrEmpty()) {
             Toast.makeText(this.context, "Please select Profile Pic", Toast.LENGTH_SHORT).show()
             isValidate = false
-
         }
 
 
